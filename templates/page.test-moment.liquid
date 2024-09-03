@@ -1,0 +1,1723 @@
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
+}
+  .left_div , .center_div , .right_div , .our_blog_div , .our_podcast_div , .our_video_div{
+    display: none;
+  }
+</style>
+<div class="Container">
+  <header class="PageHeader">
+    <div class="SectionHeader SectionHeader--center">
+      <!--       <h1 class="SectionHeader__Heading Heading u-h1">{{ page.title }}</h1> -->
+    </div>
+  </header>
+ 
+  <div class="news_post_2">
+    <div class="sf-row">
+      <div id="detail-page-content1" class="sf-col-md-6">
+        
+        <div class="sf-row our_blog_div">
+
+          <h1>Our Blog</h1>
+          <div id="blog_data">
+            {% for link in linklists.blogs.links %}
+                {% assign blog = link.object %}
+                {% for article in blog.articles by 3 %}
+                  <div class="sf-col-md-6">
+                    <div class="sub_news_image">
+                      <img src="{{ article.image | img_url: 'master' }}" alt="">
+                    </div>
+                    <div class="sub_news_content_box">
+                      <div class="title_date_box">
+                        <a href="{{ article.url }}">
+                          <h4 class="sub_news_heading_title">{{ article.title }}</h4>
+                        </a>
+                        <div class="date">{{ article.published_at | date: "%Y-%m-%d" }}</div>
+                        <h5 class="sub_news_heading_content">{{ article.content | strip_html | truncate: 50 }}</h5>
+                        <div class="author_date_box">
+                          <p class="sub_heading_below_written">{{ article.author }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %} 
+            {% endfor %}
+          </div>
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager6" id="myPager6"></ul>
+          </div>
+
+
+        </div> 
+        <div class="sf-center-c our_podcast_div">
+
+          <h1>Our Podcasts</h1>
+          <div id="podcast_data">
+          </div>
+          
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager4" id="myPager4"></ul>
+          </div>
+
+        </div>
+        <div class="sf-right-c our_video_div">
+
+          <h1>Moment Masterclasses</h1>
+          <div id="video_data">
+          </div>
+
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager5" id="myPager5"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="news_post_2">
+    <div class="sf-row">
+      <div id="detail-page-content" class="sf-col-md-6">
+        <div class="sf-row left_div">
+
+          <h1>Great Articles</h1>
+          <div id="left_data">
+          </div>
+
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+          </div>
+
+        </div> 
+        <div class="sf-center-c center_div">
+
+          <h1>Must Listens</h1>
+          <div id="center_data">
+          </div>
+
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager2" id="myPager2"></ul>
+          </div>
+
+        </div>
+        <div class="sf-right-c right_div">
+
+          <h1>Must Watch</h1>
+          <div id="right_data">
+          </div>
+
+          <div class="col-md-12 text-center">
+            <ul class="pagination pagination-lg pager3" id="myPager3"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="back-btn-section">
+    <a class="back-btn" style="display: none;" href="{{ shop.url }}/pages/test-moments">Back to Main Section</a>
+  </div>
+</div>
+
+
+<script>
+  
+  // setTimeout(function () {
+
+  var datas_myJson;
+  var mindBodyMainArticle_Json;
+  var allArticlesOfMindFul_Json;
+  var allArticlesOfThriveGlobal_Json;
+  var datas_happy_place_Json;
+  var datas_the_high_performance_podcast_Json;
+  var datas_happy_place_Json1;
+  var data_neonify_youtube;
+  var neonifyPodcastData;
+
+  var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjp7InVzZXJJZCI6IjYwZWZmNGRjYmU5MDQzNDVmODc1ZDFlNiIsImlzQWRtaW4iOnRydWV9LCJpYXQiOjE2NTM5NzY0OTMsImV4cCI6MTY4NTUxMjQ5M30.ZuQXzYFuBB8saYOSt6dQne3OgzsQZL8QE19OZR9I9FE';
+  
+  var path = window.location.href;
+  if(path.indexOf('articleTitle') !== -1)
+  {
+    
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    
+
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%94/g, "—");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://www.mindbodygreen.com/personal-growth","url2":"https://www.mindbodygreen.com/meditation"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        mindBodyMainArticle_Json = response['removedNullObjects'];
+        mindBodyMainArticle_Json.forEach(function(datas, index) {
+          datas.data.forEach(function(datas_data, index1) {
+            datas_data.articles.forEach(function(datas_data1, index2) {
+
+              console.log(" datas_data1.mindBodySnippet.articleTitle :: "+datas_data1.mindBodySnippet.articleTitle + "queryStringresult1 :: "+queryStringresult1);
+          
+              if(queryStringresult1 == $.trim(datas_data1.mindBodySnippet.articleTitle))
+              {
+                var d1 = document.getElementById('detail-page-content');
+                var node = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><img src="+datas_data.logo+" alt='logo image'><h3>"+datas_data1.mindBodyMainArticle.articleHeading+"</h3></div><div class='post-info'><div class='post-image'><img src="+datas_data1.mindBodyMainArticle.articleImage+" alt='image'></div><div class='post-content-text'>"+datas_data1.mindBodyMainArticle.articleDescription.substr(0,250)+"..."+"<a href='"+datas_data1.mindBodySnippet.articleURL+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+                d1.insertAdjacentHTML('beforeend',node);
+              }
+
+            });
+          });
+        });
+      }
+    });
+    
+  }
+  else if(path.indexOf('MindFulTitle') !== -1)
+  {
+    // alert("yes");
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url3":"https://www.mindful.org/category/calm/"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+
+        allArticlesOfMindFul_Json = response['removedNullObjects'];
+        allArticlesOfMindFul_Json.forEach(function(datas_2, index) {
+          datas_2.data.forEach(function(datas_2_data, index1) {
+            datas_2_data.articles.forEach(function(datas_2_data1, index2) {
+        
+              if(queryStringresult1 == $.trim(datas_2_data1.mindfulSnippet.articleTitle))
+              {
+                // console.log("yes");
+                var d1 = document.getElementById('detail-page-content');
+                var node1 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><img src="+datas_2_data.logo+" alt='logo image'><h3>"+datas_2_data1.mindfulSnippet.articleTitle+"</h3></div><div class='post-info'><div class='post-image'><img src="+datas_2_data1.articleImage+" alt='image'></div><div class='post-content-text'>"+datas_2_data1.mindfulSnippet.articleDescription.substr(0,250)+"..."+"<a href='"+datas_2_data1.mindfulSnippet.articleURL+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+                d1.insertAdjacentHTML('beforeend',node1);
+              }
+            });
+          });
+        });
+      }
+    });
+    
+    
+  }
+  else if(path.indexOf('ThriveGlobalTitle') !== -1)
+  {
+    console.log("else if");
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    // queryStringresult1 = queryStringresult1.replace(/%C2%A0/g, " ");
+    // queryStringresult1 = queryStringresult1.replace(" ",/%C2%A0/g);
+
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://thriveglobal.com/stories/"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        allArticlesOfThriveGlobal_Json = response['removedNullObjects'];
+        allArticlesOfThriveGlobal_Json.forEach(function(datas, index){
+          datas.data.forEach(function(datas_data, index1) {
+            datas_data.articles.forEach(function(datas_data1, index2) {
+            console.log("queryStringresult1 :: "+queryStringresult1+"datas_data1.thriveGlobalMainArticle.articleHeading :: "+datas_data1.thriveGlobalMainArticle.articleHeading);
+              if($.trim(queryStringresult1) == $.trim(datas_data1.thriveGlobalMainArticle.articleHeading))
+              {
+                console.log("if yes");
+                var d1 = document.getElementById('detail-page-content');
+                var node2 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><img src="+datas_data.logo+" alt='logo image'><h3>"+datas_data1.thriveGlobalMainArticle.articleHeading+"</h3></div><div class='post-info'><div class='post-image'><img src="+datas_data1.thriveGlobalMainArticle.articleImage+" alt='image'></div><div class='post-content-text'>"+datas_data1.thriveGlobalMainArticle.articleDescription.substr(0,250)+"..."+"<a href='"+datas_data1.thriveGlobalSnippet.thriveGlobalSnippet.articleUrl+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+                d1.insertAdjacentHTML('beforeend',node2);
+              }
+            });
+          });
+        });
+      }
+    });
+
+    
+  }
+  else if(path.indexOf('neonifyPodcastTitle') !== -1)
+  {
+
+    var queryString = window.location.search;
+    
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%98/g, "‘");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    queryStringresult1 = queryStringresult1.replace(/&#35/g, "#");
+       
+    
+
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url30":"https://play.acast.com/s/the-high-performance-podcast", "url31":"https://play.acast.com/s/happy-place"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        neonifyPodcastData = response['removedNullObjects'];
+        neonifyPodcastData.forEach(function(datas, index) {
+          datas.data.forEach(function(datas_data, index1) {
+
+          if(queryStringresult1 == $.trim(datas_data.title))
+          {
+            var d1 = document.getElementById('detail-page-content');
+            var node3 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+datas_data.title+"</h3></div><div class='post-info'><div class='post-image'>"+datas_data.embedded+"</div><div class='post-content-text'>"+datas_data.description.description.substr(0,250)+"..."+"<a href='"+datas_data.url+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+            d1.insertAdjacentHTML('beforeend',node3);
+          }
+          });
+        });
+      }
+    });
+
+    
+
+  }
+  else if(path.indexOf('mustlistenTitle') !== -1)
+  {
+
+    var queryString = window.location.search;
+    
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%98/g, "‘");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    queryStringresult1 = queryStringresult1.replace(/&#35/g, "#");
+       
+    
+
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://api.spotify.com/v1/shows/7iqxmut7xguzszamjonwlx?market=es","url2":"https://api.spotify.com/v1/shows/2fl7kkf8dnzuklh26pwzp4?market=es","url3":"https://api.spotify.com/v1/shows/1k0x3tuxwlv8lhrhmjzcsd?market=es"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        neonifyPodcastData = response['removedNullObjects'];
+        neonifyPodcastData.forEach(function(datas, index) {
+          datas.data.forEach(function(datas_data, index1) {
+            datas_data.podcastDetails.forEach(function(datas_data_podcastdetail, index2) {
+
+            // console.log("queryStringresult1 :: "+queryStringresult1+"  datas_data_podcastdetail.podcastName :: "+datas_data_podcastdetail.podcastName);
+
+          if(queryStringresult1 == $.trim(datas_data_podcastdetail.podcastName))
+          {
+            // console.log("yes");
+            var d1 = document.getElementById('detail-page-content');
+            var node3 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+datas_data_podcastdetail.podcastName+"</h3></div><div class='post-info'><div class='post-image'>"+datas_data_podcastdetail.embedIframe+"</div><div class='post-content-text'>"+datas_data_podcastdetail.podcastDescription.substr(0,250)+"..."+"<a href='"+datas_data_podcastdetail.podcastURL+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+            d1.insertAdjacentHTML('beforeend',node3);
+          }
+          });
+          });
+        });
+      }
+    });
+
+
+  }
+  else if(path.indexOf('highPerformanceTitle') !== -1)
+  {
+
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%98/g, "‘");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+
+
+
+    datas_the_high_performance_podcast_new.forEach(function(datas, index){
+      
+      if(queryStringresult1 == $.trim(datas.title))
+      {
+        
+        var d1 = document.getElementById('detail-page-content');
+        var node4 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+datas.title+"</h3></div><div class='post-info'><div class='post-image'>"+datas.embedded+"</div><div class='post-content-text'>"+datas.description+"</div></div></div></div></div></div></div>";
+        d1.insertAdjacentHTML('beforeend',node4);
+      }
+
+    });
+    
+  /*  datas_the_high_performance_podcast_Json.forEach(function(datas, index) {
+
+      if(queryStringresult1 == datas.title)
+      {
+
+        var d1 = document.getElementById('center_data');
+        var node4 = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+datas.title+"</h3></div><div class='post-info'><div class='post-image'><img src="+datas.thumbnail+" alt='image'></div></div></div></div></div></div></div>";
+        d1.insertAdjacentHTML('beforeend',node4);
+      }
+
+    });*/
+    
+    
+
+  }else if(path.indexOf('neonifyYoutubeTitle') !== -1)
+  {
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    queryStringresult1 = queryStringresult1.replace(/&/g, "&amp;");
+    queryStringresult1 = queryStringresult1.replace(/'/g, "&#39;");
+
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https%3A%2F%2Fwww.youtube.com%2Fresults%3Fsearch_query%3Dmindfulness%2Bmental%2Bfitness%2Bbreath%2Btechniques"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        data_neonify_youtube = response['removedNullObjects'][0]['data'];
+        data_neonify_youtube.forEach(function(neonify_youtube_data, index) {
+        
+        if(queryStringresult1 == $.trim(neonify_youtube_data.title))
+        {
+          var neonifyYoutubeId = document.getElementById('detail-page-content');
+          var neonifyYoutubeHtml = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+neonify_youtube_data.title+"</h3></div><div class='post-info'><div class='post-image'><iframe width='320' height='250' src='"+neonify_youtube_data.embeddedVideoURL+"' title='YouTube video player test' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div><div class='post-content-text'>"+neonify_youtube_data.description+"</div></div></div></div></div></div></div>";
+          neonifyYoutubeId.insertAdjacentHTML('beforeend',neonifyYoutubeHtml);
+        }
+
+      });
+      }
+    });
+  }else if(path.indexOf('momentPodcastTitle') !== -1){
+
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+    queryStringresult1 = queryStringresult1.replace(/&/g, "&amp;");
+    queryStringresult1 = queryStringresult1.replace(/&amp;/g, "&");
+    queryStringresult1 = queryStringresult1.replace(/'/g, "&#39;");
+    queryStringresult1 = queryStringresult1.replace(/&#39;/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%C2%A0/g, " ");
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://api.spotify.com/v1/shows/5r0hjgdwobsofcrqwfqz0i?market=es", "url2":"https://api.spotify.com/v1/shows/3fod5sncqzl1zk7zswrecy?market=es", "url3":"https://api.spotify.com/v1/shows/5enpx2siniswg36nl0pcmf?market=es", "url4":"https://api.spotify.com/v1/shows/2s2gyuirzgwacexlycuho0?market=es"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        
+        datas_happy_place_Json = response['removedNullObjects'];
+        datas_happy_place_Json.forEach(function(momentPodcastData, index) {
+        momentPodcastData.data.forEach(function(momentPodcastData_data, index1) {
+        momentPodcastData_data.podcastDetails.forEach(function(momentPodcastData_podcastDetails, index2) {
+
+
+        if(queryStringresult1 == $.trim(momentPodcastData_podcastDetails.podcastName))
+        {
+          var podcastURL = momentPodcastData_podcastDetails.podcastURL;
+          podcastURL = podcastURL.split("/");
+          podcastURL = podcastURL.slice(-1);
+
+          console.log("spotify uri = "+ podcastURL);
+
+          
+          var momentdataId = document.getElementById('detail-page-content1');
+          var momentdataHtml = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+momentPodcastData_podcastDetails.podcastName+"</h3></div><div class='post-info'><div class='post-image'>"+momentPodcastData_podcastDetails.embedIframe+"</div><div class='post-content-text'>"+momentPodcastData_podcastDetails.podcastDescription.substr(0,250)+"..."+"<a href='"+momentPodcastData_podcastDetails.podcastURL+"' target='_blank'>Read More</a></div></div></div></div></div></div></div>";
+          momentdataId.insertAdjacentHTML('beforeend',momentdataHtml);
+
+        }
+        });
+        });
+        });
+      }
+    });
+
+
+  }
+  else if(path.indexOf('momentYoutubeTitle') !== -1){
+
+    var queryString = window.location.search;
+    var queryString1 = queryString.split("=");
+    if (window.location.hash.indexOf('#') > -1) 
+    {
+     var queryStringresult = queryString1[1] + window.location.hash;    
+    }
+    else
+    {
+     var queryStringresult = queryString1[1];    
+    }
+    var queryStringresult1 = queryStringresult.replace(/%20/g, " ");
+    queryStringresult1 = queryStringresult1.replace(/%27/g, "'");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%99/g, "’");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%93/g, "–");
+    queryStringresult1 = queryStringresult1.replace(/%E2%80%A6/g, "…");
+
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url15":"https://www.youtube.com/watch?v=wm0dp4dqf8q", "url16":"https://www.youtube.com/watch?v=7oqnszx6g6a", "url17":"https://www.youtube.com/watch?v=43kmg78-kdg", "url18":"https://www.youtube.com/watch?v=tja8vlj-rye", "url19":"https://www.youtube.com/watch?v=rlzbpyovduy", "url20":"https://www.youtube.com/watch?v=2ntxrghdhr8", "url21":"https://www.youtube.com/watch?v=pwfxxdc-shs"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+
+        datas_moment_youtube_Json = response['removedNullObjects'];
+        datas_moment_youtube_Json.forEach(function(moment_youtube_data, index) {
+        // console.log("title : "+queryStringresult1+ " " + "datas : "+datas.thriveGlobalMainArticle.articleHeading);
+        if(queryStringresult1 == $.trim(moment_youtube_data.data[0].title))
+        {
+          var momentYoutubevideoDataId = document.getElementById('detail-page-content1');
+          var momentYoutubevideoDataHtml = "<div id='et-main-area'><div id='main-content'><article id='post-392945' class='post-392945 page type-page status-publish hentry'><div class='entry-content'><section class='single-post-page'><div class='sf-container'><div class='post-block'><div class='post-title'><h3>"+moment_youtube_data.data[0].title+"</h3></div><div class='post-info'><div class='post-image'><iframe width='320' height='250' src='"+moment_youtube_data.data[0].embeddedVideoURL+"' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div><div class='post-content-text'>"+moment_youtube_data.data[0].description+"</div></div></div></div></div></div></div>";
+          momentYoutubevideoDataId.insertAdjacentHTML('beforeend',momentYoutubevideoDataHtml);
+        }
+
+      });
+      }
+    });
+  }
+  else
+  {
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://www.mindbodygreen.com/personal-growth","url2":"https://www.mindbodygreen.com/meditation"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        mindBodyMainArticle_Json = response['removedNullObjects'];
+        mindBodyMainArticle_Json.forEach(function(datas, index) {
+          datas.data.forEach(function(datas_data, index1) {
+            datas_data.articles.forEach(function(datas_data1, index2) {
+                var d1 = document.getElementById('left_data');
+                var node = "<div class='sf-col-md-6' id='date_sort' data-date=''><div class='sub_news_image'><img src="+datas_data1.mindBodySnippet.articleImage+" alt=''><p class='sub_news_heading_catname'>"+datas_data1.mindBodySnippet.articleCategory+"</p></div><div class='sub_news_content_box'><a href='"+path+"?articleTitle="+datas_data1.mindBodySnippet.articleTitle.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_data1.mindBodySnippet.articleTitle+"</h4></a><h5 class='sub_news_heading_content'>"+datas_data1.mindBodyMainArticle.articleDescription.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+ datas_data1.mindBodySnippet.articleWrittenBy+"</p></div></div></div>";
+                d1.insertAdjacentHTML('beforeend',node);
+            });
+          });
+        });
+      }
+    });
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url3":"https://www.mindful.org/category/calm/"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        allArticlesOfMindFul_Json = response['removedNullObjects'];
+        allArticlesOfMindFul_Json.forEach(function(datas_2, index) {
+          datas_2.data.forEach(function(datas_2_data, index1) {
+            datas_2_data.articles.forEach(function(datas_2_data1, index2) {
+              var d1_2 = document.getElementById('left_data');
+
+              var d = new Date(datas_2_data1.mindfulSnippet.articleWrritenDate),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+
+              if (month.length < 2) 
+              month = '0' + month;
+              if (day.length < 2) 
+              day = '0' + day;
+              var mindful_new_date = [year, month, day].join('-');
+
+              var node_2 = "<div class='sf-col-md-6' id='date_sort' data-date='"+mindful_new_date+"'><div class='sub_news_image'><img src="+datas_2_data1.articleImage+" alt=''></div><div class='sub_news_content_box'><a href='"+path+"?MindFulTitle="+datas_2_data1.mindfulSnippet.articleTitle.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_2_data1.mindfulSnippet.articleTitle+"</h4></a><h5 class='sub_news_heading_content'>"+datas_2_data1.mindfulSnippet.articleDescription.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+ datas_2_data1.mindfulSnippet.articleWrritenBy+"</p><p class='article_date'>"+mindful_new_date+"</p></div></div></div>";
+              d1_2.insertAdjacentHTML('beforeend',node_2);
+            });
+          });
+        });
+      }
+    });
+
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://thriveglobal.com/stories/"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        allArticlesOfThriveGlobal_Json = response['removedNullObjects'];
+
+        allArticlesOfThriveGlobal_Json.forEach(function(datas_3, index) {
+          datas_3.data.forEach(function(datas_3_data, index1) {
+            datas_3_data.articles.forEach(function(datas_3_data1, index2) {
+              var d1_3 = document.getElementById('left_data');
+
+              var d = new Date(datas_3_data1.thriveGlobalSnippet.thriveGlobalSnippet.articleDate),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+
+              if (month.length < 2) 
+              month = '0' + month;
+              if (day.length < 2) 
+              day = '0' + day;
+              var thriveglobal_new_date = [year, month, day].join('-');
+
+              var node_3 = "<div class='sf-col-md-6' id='date_sort' data-date='"+thriveglobal_new_date+"'><div class='sub_news_image'><img src="+datas_3_data1.thriveGlobalSnippet.articleImage+" alt=''></div><div class='sub_news_content_box'><a href='"+path+"?ThriveGlobalTitle="+datas_3_data1.thriveGlobalSnippet.thriveGlobalSnippet.articleHeading.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_3_data1.thriveGlobalSnippet.thriveGlobalSnippet.articleHeading+"</h4></a><h5 class='sub_news_heading_content'>"+datas_3_data1.thriveGlobalMainArticle.articleDescription.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+ datas_3_data1.thriveGlobalSnippet.thriveGlobalSnippet.articleCreatedBy+"</p><p class='article_date'>"+thriveglobal_new_date+"</p></div></div></div>";
+              d1_3.insertAdjacentHTML('beforeend',node_3);
+            });
+          });
+        });
+      }
+    });
+
+      /*datas_happy_place_new.forEach(function(datas_4, index) {
+
+        var d1_4 = document.getElementById('center_data');
+        var node_4 = "<div class='sf-col-md-6'><div class='sub_news_image'><img src="+datas_4.thumbnail+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?happyPlaceTitle="+datas_4.title.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_4.title+"</h4></a><h5 class='sub_news_heading_content'>"+datas_4.description.substr(0,50)+"..."+"</h5><div class='date'>"+datas_4.date+"</div></div><div class='time'>"+datas_4.playTime+"</div></div></div>";
+        d1_4.insertAdjacentHTML('beforeend',node_4);
+
+      });*/
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url30":"https://play.acast.com/s/the-high-performance-podcast", "url31":"https://play.acast.com/s/happy-place"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        
+        datas_happy_place_Json = response['removedNullObjects'];
+        datas_happy_place_Json.forEach(function(datas_4, index) {
+        datas_4.data.forEach(function(datas_4_data, index1) {
+          
+          /*var array = $.map(datas_4_data, function (value, key) {
+            // return [[key,value]];
+            return value;
+          });
+          console.log("array : "+array[2]);
+          
+          var date_new = array[2];
+          
+          date_new.sort(function(a,b){
+          return new Date(a) - new Date(b)
+          });
+          console.log("date_new sort : "+ date_new);*/
+
+          var d = new Date(datas_4_data.date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+          if (month.length < 2) 
+          month = '0' + month;
+          if (day.length < 2) 
+          day = '0' + day;
+          var new_date = [year, month, day].join('-');
+
+          var d1_4 = document.getElementById('center_data');
+          var node_4 = "<div class='sf-col-md-6' id='date_sort' data-date='"+new_date+"'><div class='sub_news_image'><img src="+datas_4_data.thumbnail+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?neonifyPodcastTitle="+datas_4_data.title.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_4_data.title+"</h4></a><h5 class='sub_news_heading_content'>"+datas_4_data.description.description.substr(0,50)+"..."+"</h5><div class='date'>"+new_date+"</div></div><div class='time'>"+datas_4_data.playTime+"</div></div></div>";
+          d1_4.insertAdjacentHTML('beforeend',node_4);
+          // debugger;
+
+          });
+        });
+      }
+    });
+
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://api.spotify.com/v1/shows/7iqxmut7xguzszamjonwlx?market=es","url2":"https://api.spotify.com/v1/shows/2fl7kkf8dnzuklh26pwzp4?market=es","url3":"https://api.spotify.com/v1/shows/1k0x3tuxwlv8lhrhmjzcsd?market=es"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        
+        datas_happy_place_Json = response['removedNullObjects'];
+        datas_happy_place_Json.forEach(function(datas_4, index) {
+        datas_4.data.forEach(function(datas_4_data, index1) {
+          datas_4_data.podcastDetails.forEach(function(datas_4_podcastdetail, index2) {
+          
+          var d = new Date(datas_4_podcastdetail.releaseDate),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+          if (month.length < 2) 
+          month = '0' + month;
+          if (day.length < 2) 
+          day = '0' + day;
+          var new_date = [year, month, day].join('-');
+
+          var d1_4_new = document.getElementById('center_data');
+          var node_4_new = "<div class='sf-col-md-6' id='date_sort' data-date='"+new_date+"'><div class='sub_news_image'><img src="+datas_4_podcastdetail.podcastImages[0].url+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?mustlistenTitle="+datas_4_podcastdetail.podcastName.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+datas_4_podcastdetail.podcastName+"</h4></a><h5 class='sub_news_heading_content'>"+datas_4_podcastdetail.podcastDescription.substr(0,50)+"..."+"</h5><div class='date'>"+new_date+"</div></div><div class='time'>"+"</div></div></div>";
+          d1_4_new.insertAdjacentHTML('beforeend',node_4_new);
+          // debugger;
+
+          });
+        });
+        });
+      }
+    });
+    
+    
+//     --------------------------------- right div data ----------------------------------------
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https%3A%2F%2Fwww.youtube.com%2Fresults%3Fsearch_query%3Dmindfulness%2Bmental%2Bfitness%2Bbreath%2Btechniques"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        data_neonify_youtube = response['removedNullObjects'][0]['data'];
+        data_neonify_youtube.forEach(function(data_neonify_youtube, index) {
+          var d1_6 = document.getElementById('right_data');
+
+          var publishedAt = data_neonify_youtube.publishedAt;
+          var date = publishedAt.split("T");
+          date = date[0];
+
+          var node_6 = "<div class='sf-col-md-6'><div class='sub_news_image'><img src="+data_neonify_youtube.thumbnail.default.url+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?neonifyYoutubeTitle="+data_neonify_youtube.title.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+data_neonify_youtube.title+"</h4></a><div class='date'>"+date+"</div><h5 class='sub_news_heading_content'>"+data_neonify_youtube.description.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+data_neonify_youtube.channelTitle+"</p></div></div></div></div>";
+          d1_6.insertAdjacentHTML('beforeend',node_6);
+        });
+      }
+    });
+    
+    
+    /*$.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url5":"https://play.acast.com/s/happy-place"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        datas_happy_place_Json1 = response['removedNullObjects'][0]['data'];
+        datas_happy_place_Json1.forEach(function(datas_7, index) {
+          var d1_7 = document.getElementById('right_data');
+          var node_7 = "<div class='sf-col-md-6'><div class='sub_news_image'><img src="+datas_7.thumbnail+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href="+datas_7.url+"><h4 class='sub_news_heading_title'>"+datas_7.title+"</h4></a><div class='date'>"+datas_7.date+"</div></div><div class='time'>"+datas_7.playTime+"</div></div></div>";
+          d1_7.insertAdjacentHTML('beforeend',node_7);
+        });
+      }
+    });*/
+    
+    
+    
+//     -------------------------- Top podcast detail -------------------------
+    
+    
+    $.ajax({
+      url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url1":"https://api.spotify.com/v1/shows/5r0hjgdwobsofcrqwfqz0i?market=es", "url2":"https://api.spotify.com/v1/shows/3fod5sncqzl1zk7zswrecy?market=es", "url3":"https://api.spotify.com/v1/shows/5enpx2siniswg36nl0pcmf?market=es", "url4":"https://api.spotify.com/v1/shows/2s2gyuirzgwacexlycuho0?market=es"}',
+      type: 'GET',  
+      headers: {'x-auth-token':token},
+      success: function( response ) {
+        // datas_myJson = response;
+        //     console.log(response['removedNullObjects'][0]['data']);
+        
+        datas_happy_place_Json = response['removedNullObjects'];
+        datas_happy_place_Json.forEach(function(momentPodcastData, index) {
+        momentPodcastData.data.forEach(function(momentPodcastData_data, index1) {
+        momentPodcastData_data.podcastDetails.forEach(function(momentPodcastData_podcastDetails, index2) {
+
+          /*console.log("momentPodcastData_podcastDetails : "+ momentPodcastData_podcastDetails);
+          momentPodcastData.data.momentPodcastData_data.sort(function(a,b){
+          return new Date(a.momentPodcastData_podcastDetails.plantingDate) - new Date(b.momentPodcastData_podcastDetails.plantingDate)
+          });
+          console.log("momentPodcastData_podcastDetails date sort : "+ momentPodcastData_podcastDetails);*/
+          var podcastame1 = 'Ep.2: From Hustling Hard to Inner Peace Through Mindfulness with Fiona McKinnon';
+          var podcastame2 = 'Fiona McKinnon: Insights on boosting your mental health';
+          var podcastame3 = 'S1 - E11 - Mental Health - Fiona McKinnon';
+          var podcastame4 = 'The Fashion Clinic Talks Wellbeing With Alex Strang, Lia Cowan and Dion Terrelonge';
+
+          var podcastName = momentPodcastData_podcastDetails.podcastName;
+
+          if( podcastName.indexOf(podcastame1) != -1 || podcastName.indexOf(podcastame2) != -1 || podcastName.indexOf(podcastame3) != -1 || podcastName.indexOf(podcastame4) != -1 ){
+
+
+            var momentdataId = document.getElementById('podcast_data');
+            var momentdataHtml = "<div class='sf-col-md-6' id='date_sort' data-date='"+momentPodcastData_podcastDetails.releaseDate+"'><div class='sub_news_image'><img src="+momentPodcastData_podcastDetails.podcastImages[1].url+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?momentPodcastTitle="+momentPodcastData_podcastDetails.podcastName.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+momentPodcastData_podcastDetails.podcastName+"</h4></a><div class='date'>"+momentPodcastData_podcastDetails.releaseDate+"</div><h5 class='sub_news_heading_content'>"+momentPodcastData_podcastDetails.podcastDescription.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+momentPodcastData_data.showPublisher+"</p></div></div></div></div>";
+            momentdataId.insertAdjacentHTML('beforeend',momentdataHtml);
+          }
+
+          });
+        });
+        });
+      }
+    });
+
+
+
+//     -------------------------- Top videos detail -------------------------
+
+      $.ajax({
+        url: 'https://api.weareneonify.com/api/scrapeddata/pulldata/27ec52ee773a1504b443557f4e1a0a41?urls={"url15":"https://www.youtube.com/watch?v=wm0dp4dqf8q", "url16":"https://www.youtube.com/watch?v=7oqnszx6g6a", "url17":"https://www.youtube.com/watch?v=43kmg78-kdg", "url18":"https://www.youtube.com/watch?v=tja8vlj-rye", "url19":"https://www.youtube.com/watch?v=rlzbpyovduy", "url20":"https://www.youtube.com/watch?v=2ntxrghdhr8", "url21":"https://www.youtube.com/watch?v=pwfxxdc-shs"}',
+        type: 'GET',  
+        headers: {'x-auth-token':token},
+        success: function( response ) {
+        // datas_myJson = response;
+            // console.log(response['removedNullObjects'][0]['data']);
+        datas_moment_youtube_Json = response['removedNullObjects'];
+        datas_moment_youtube_Json.forEach(function(data_moment_youtube, index) {
+
+          // console.log("data_moment_youtube Title : "+data_moment_youtube.title);
+
+          var momentYoutubevideoDataId = document.getElementById('video_data');
+
+          var publishedAt = data_moment_youtube.data[0].publishedAt;
+          var date = publishedAt.split("T");
+          date = date[0];
+
+          var momentYoutubevideoDataHtml = "<div class='sf-col-md-6'><div class='sub_news_image'><img src="+data_moment_youtube.data[0].thumbnail.default.url+" alt=''></div><div class='sub_news_content_box'><div class='title_date_box'><a href='"+path+"?momentYoutubeTitle="+data_moment_youtube.data[0].title.replace(/'/g, "%27")+"'><h4 class='sub_news_heading_title'>"+data_moment_youtube.data[0].title+"</h4></a><div class='date'>"+date+"</div><h5 class='sub_news_heading_content'>"+data_moment_youtube.data[0].description.substr(0,50)+"..."+"</h5><div class='author_date_box'><p class='sub_heading_below_written'>"+data_moment_youtube.data[0].channelTitle+"</p></div></div></div></div>";
+          momentYoutubevideoDataId.insertAdjacentHTML('beforeend',momentYoutubevideoDataHtml);
+        });
+        }
+        });
+
+  }
+// }, 500);
+  
+  
+
+$.fn.pageMe = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link"><i class="fa fa-caret-left" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg' + (curr + 1) + '" class="pg"><a href="#" class="page_link">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link:first').addClass('active');
+  pager.find('.prev_link').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg').hide();
+    $('#pg1,#pg2,#pg3').show();
+    $("#pg3").after($("<li class='ell'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg').hide();
+    $(".ell").remove();
+    var prevpg = $("#pg" + page).show();
+    var currpg = $("#pg" + (page + 1)).show();
+    var nextpg = $("#pg" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link').show();
+    } else {
+      pager.find('.prev_link').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link').show();
+    } else {
+      pager.find('.next_link').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+
+$.fn.pageMe2 = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager2');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link2"><i class="fa fa-caret-left" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg_' + (curr + 1) + '" class="pg_new"><a href="#" class="page_link2">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link2"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link2:first').addClass('active');
+  pager.find('.prev_link2').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link2').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg_new').hide();
+    $('#pg_1,#pg_2,#pg_3').show();
+    $("#pg_3").after($("<li class='ell2'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link2').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link2').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link2').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg_new').hide();
+    $(".ell2").remove();
+    var prevpg = $("#pg_" + page).show();
+    var currpg = $("#pg_" + (page + 1)).show();
+    var nextpg = $("#pg_" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg_" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg_" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell2'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell2'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link2').show();
+    } else {
+      pager.find('.prev_link2').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link2').show();
+    } else {
+      pager.find('.next_link2').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+  
+$.fn.pageMe3 = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager3');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link3"><i class="fa fa-caret-left" aria-hidden="true"></i></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg__' + (curr + 1) + '" class="pg__new"><a href="#" class="page_link3">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link3"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link3:first').addClass('active');
+  pager.find('.prev_link3').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link3').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg__new').hide();
+    $('#pg__1,#pg__2,#pg__3').show();
+    $("#pg__3").after($("<li class='ell3'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link3').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link3').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link3').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg__new').hide();
+    $(".ell3").remove();
+    var prevpg = $("#pg__" + page).show();
+    var currpg = $("#pg__" + (page + 1)).show();
+    var nextpg = $("#pg__" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg__" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg__" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell3'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell3'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link3').show();
+    } else {
+      pager.find('.prev_link3').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link3').show();
+    } else {
+      pager.find('.next_link3').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+
+$.fn.pageMe4 = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager4');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link4"><i class="fa fa-caret-left" aria-hidden="true"></i></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg___' + (curr + 1) + '" class="pg___new"><a href="#" class="page_link4">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link4"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link4:first').addClass('active');
+  pager.find('.prev_link4').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link4').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg___new').hide();
+    $('#pg___1,#pg___2,#pg___3').show();
+    $("#pg___3").after($("<li class='ell4'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link4').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link4').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link4').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg___new').hide();
+    $(".ell4").remove();
+    var prevpg = $("#pg___" + page).show();
+    var currpg = $("#pg___" + (page + 1)).show();
+    var nextpg = $("#pg___" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg___" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg___" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell4'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell4'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link4').show();
+    } else {
+      pager.find('.prev_link4').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link4').show();
+    } else {
+      pager.find('.next_link4').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+
+$.fn.pageMe5 = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager5');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link5"><i class="fa fa-caret-left" aria-hidden="true"></i></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg____' + (curr + 1) + '" class="pg____new"><a href="#" class="page_link5">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link5"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link5:first').addClass('active');
+  pager.find('.prev_link5').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link5').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg____new').hide();
+    $('#pg____1,#pg____2,#pg____3').show();
+    $("#pg____3").after($("<li class='ell5'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link5').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link5').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link5').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg____new').hide();
+    $(".ell5").remove();
+    var prevpg = $("#pg____" + page).show();
+    var currpg = $("#pg____" + (page + 1)).show();
+    var nextpg = $("#pg____" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg____" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg____" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell5'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell5'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link5').show();
+    } else {
+      pager.find('.prev_link5').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link5').show();
+    } else {
+      pager.find('.next_link5').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+
+$.fn.pageMe6 = function(opts) {
+  var $this = this,
+    defaults = {
+      perPage: 7,
+      showPrevNext: false,
+      hidePageNumbers: false
+    },
+    settings = $.extend(defaults, opts);
+
+  var listElement = $this;
+  var perPage = settings.perPage;
+  var children = listElement.children();
+  var pager = $('.pager6');
+
+  if (typeof settings.childSelector != "undefined") {
+    children = listElement.find(settings.childSelector);
+  }
+
+  if (typeof settings.pagerSelector != "undefined") {
+    pager = $(settings.pagerSelector);
+  }
+
+  var numItems = children.size();
+  var numPages = Math.ceil(numItems / perPage);
+
+  pager.data("curr", 0);
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="prev_link6"><i class="fa fa-caret-left" aria-hidden="true"></i></i></a></li>').appendTo(pager);
+  }
+
+  var curr = 0;
+  // Added class and id in li start
+  while (numPages > curr && (settings.hidePageNumbers == false)) {
+    $('<li id="pg_____' + (curr + 1) + '" class="pg_____new"><a href="#" class="page_link6">' + (curr + 1) + '</a></li>').appendTo(pager);
+    curr++;
+  }
+  // Added class and id in li end
+
+  if (settings.showPrevNext) {
+    $('<li><a href="#" class="next_link6"><i class="fa fa-caret-right" aria-hidden="true"></i></a></li>').appendTo(pager);
+  }
+
+  pager.find('.page_link6:first').addClass('active');
+  pager.find('.prev_link6').hide();
+  if (numPages <= 1) {
+    pager.find('.next_link6').hide();
+  }
+  pager.children().eq(1).addClass("active");
+
+  children.hide();
+  children.slice(0, perPage).show();
+  if (numPages > 3) {
+    $('.pg_____new').hide();
+    $('#pg_____1,#pg_____2,#pg_____3').show();
+    $("#pg_____3").after($("<li class='ell6'>").html("<span>...</span>"));
+  }
+
+  pager.find('li .page_link6').click(function() {
+    var clickedPage = $(this).html().valueOf() - 1;
+    goTo(clickedPage, perPage);
+    return false;
+  });
+  pager.find('li .prev_link6').click(function() {
+    previous();
+    return false;
+  });
+  pager.find('li .next_link6').click(function() {
+    next();
+    return false;
+  });
+
+  function previous() {
+    var goToPage = parseInt(pager.data("curr")) - 1;
+    goTo(goToPage);
+  }
+
+  function next() {
+    goToPage = parseInt(pager.data("curr")) + 1;
+    goTo(goToPage);
+  }
+
+  function goTo(page) {
+    var startAt = page * perPage,
+      endOn = startAt + perPage;
+
+    // Added few lines from here start
+
+    $('.pg_____new').hide();
+    $(".ell6").remove();
+    var prevpg = $("#pg_____" + page).show();
+    var currpg = $("#pg_____" + (page + 1)).show();
+    var nextpg = $("#pg_____" + (page + 2)).show();
+    if (prevpg.length == 0) nextpg = $("#pg_____" + (page + 3)).show();
+    if (prevpg.length == 1 && nextpg.length == 0) {
+      prevpg = $("#pg_____" + (page - 1)).show();
+    }
+    if (curr > 3) {
+      if (page > 1) prevpg.before($("<li class='ell6'>").html("<span>...</span>"));
+      if (page < curr - 2) nextpg.after($("<li class='ell6'>").html("<span>...</span>"));
+    }
+    currpg.addClass("active").siblings().removeClass("active");
+    // Added few lines till here end
+
+
+    children.css('display', 'none').slice(startAt, endOn).show();
+
+    if (page >= 1) {
+      pager.find('.prev_link6').show();
+    } else {
+      pager.find('.prev_link6').hide();
+    }
+
+    if (page < (numPages - 1)) {
+      pager.find('.next_link6').show();
+    } else {
+      pager.find('.next_link6').hide();
+    }
+
+    pager.data("curr", page);
+    /*pager.children().removeClass("active");
+    pager.children().eq(page + 1).addClass("active");*/
+
+  }
+};
+
+$(window).load(function() {
+  
+  setTimeout(function () {
+
+    $('#left_data').pageMe({
+      pagerSelector: '#myPager',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+
+    $('#center_data').pageMe2({
+      pagerSelector: '#myPager2',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+    
+    $('#right_data').pageMe3({
+      pagerSelector: '#myPager3',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+
+    $('#podcast_data').pageMe4({
+      pagerSelector: '#myPager4',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+
+    $('#video_data').pageMe5({
+      pagerSelector: '#myPager5',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+
+    $('#blog_data').pageMe6({
+      pagerSelector: '#myPager6',
+      showPrevNext: true,
+      hidePageNumbers: false,
+      perPage: 3
+    });
+  }, 1000);
+
+  setTimeout(function () {
+    if (window.location.href.indexOf("?") > -1) {
+  //       alert("detail page");
+    }else{
+      $(".left_div , .center_div , .right_div , .our_blog_div , .our_podcast_div , .our_video_div ").css("display", "block");
+    }
+  },500);
+    
+  
+  $(function() {
+      $("#center_data #date_sort").sort(sort_div).appendTo('#center_data');
+    function sort_div(a, b) {
+      return ($(b).data('date')) > ($(a).data('date')) ? 1 : -1;
+    }
+  });
+
+  $(function() {
+      $("#podcast_data #date_sort").sort(sort_div).appendTo('#podcast_data');
+    function sort_div(a, b) {
+      return ($(b).data('date')) > ($(a).data('date')) ? 1 : -1;
+    }
+  });
+
+  $(function() {
+      $("#left_data #date_sort").sort(sort_div).appendTo('#left_data');
+    function sort_div(a, b) {
+      return ($(b).data('date')) > ($(a).data('date')) ? 1 : -1;
+    }
+  });
+  
+});
+
+$(document).ready(function(){
+  setTimeout(function () {
+    if (window.location.href.indexOf("?") > -1) {
+       $(".back-btn").css("display", "block");
+    }
+  },1000);
+  
+});
+</script>
+
+

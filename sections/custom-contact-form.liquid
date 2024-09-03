@@ -1,0 +1,52 @@
+<div class="custom-contact-form">
+  {% form 'contact' %}
+  {{ form.errors | default_errors }}
+  <div class="contact-method">
+  <label for="contact-method">How do you want us to contact you?</label>
+  <input type="radio" name="contact[contact_method]" value="prayer" id="prayer" checked="checked"><label for="prayer">Prayer</label><br>
+  <input type="radio" name="contact[contact_method]" value="testimony" id="testimony"><label for="testimony">Testimony</label><br>
+</div>
+  <div class="name">
+    <label for="name">Name</label>
+    <input type="text" name="contact[name]" id="name" required />
+  </div>
+
+  <div class="number">
+    <label for="number">Number(Optional)</label>
+    <input type="text" name="contact[number]" id="number" required />
+  </div>
+
+  <div class="email">
+    <label for="email">Email</label>
+    <input type="email" name="contact[email]" id="email" required />
+  </div>
+
+  <div class="message">
+    <label for="write-your-story">Message</label>
+    <textarea name="contact[write-your-story]" id="write-your-story" required></textarea>
+  </div>
+
+  <div class="submit">
+    <input type="submit" value="Submit" />
+  </div>
+{% endform %}
+</div>
+{% schema %}
+  {
+    "name": "Custom Contact Form",
+    "settings": [
+      
+    ],
+  "presets": [
+    {
+      "name": "Custom Contact Form"
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

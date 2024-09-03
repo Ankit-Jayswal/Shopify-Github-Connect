@@ -1,0 +1,336 @@
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script><style>
+#fb-share-button,
+#insta-share-button,
+#linkdin-share-button,
+#twitter-share-button {
+	border-radius: 3px;
+	font-weight: 600;
+	position: static;
+	display: inline-block
+}
+
+.share-only-btn.page-left-side,
+.maindv.share-only-icon.page-left-side {
+	left: 0;
+	z-index: 9999;
+	top: 36%;
+	position: fixed
+}
+
+#fb-share-button {
+	background: #3b5998;
+	padding: 5px 8px
+}
+
+#fb-share-button:hover,
+#insta-share-button:hover,
+#linkdin-share-button:hover,
+#twitter-share-button:hover {
+	cursor: pointer;
+	background: #213a6f
+}
+
+#fb-share-button svg {
+	width: 18px;
+	fill: white;
+	vertical-align: middle;
+	border-radius: 2px
+}
+
+#fb-share-button span {
+	vertical-align: middle;
+	color: #fff;
+	font-size: 13px;
+	padding: 0 3px
+}
+
+.frame {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 80px;
+	width: 226px;
+	gap: 14px
+}
+
+.btn12 {
+	height: 35px;
+	width: 35px;
+	border-radius: 3px;
+	background: #e0e5ec;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	-webkit-tap-highlight-color: transparent;
+	transition: 0.4s;
+	font-size: 16px;
+	color: #2a3454;
+	text-decoration: none;
+	margin-bottom: 10px
+}
+.btn12:hover{
+	text-decoration: none;
+	width: 60px;
+}
+
+
+.fa-cog {
+	color: #fff
+}
+
+#twitter-share-button {
+	background: #00acee;
+	padding: 5px 14px
+}
+
+#linkdin-share-button span,
+#twitter-share-button span {
+	vertical-align: middle;
+	color: #fff;
+	font-size: 12px;
+	padding: 0 3px
+}
+
+#linkdin-share-button {
+	background: #0077b5;
+	padding: 5px 15px
+}
+
+#insta-share-button {
+	background: #fd1d1d;
+	padding: 5px 8px
+}
+
+#insta-share-button span {
+	vertical-align: middle;
+	color: #fff;
+	font-size: 14px;
+	padding: 0 3px
+}
+
+.maindv.share-only-icon.page-right-side {
+	position: fixed;
+	z-index: 9999;
+	right: -3px;
+	top: 36%
+}
+
+.maindv.share-only-icon.page-left-side .frame,
+.maindv.share-only-icon.page-right-side .frame {
+	display: initial !important
+}
+
+.share-icon-btn.under-add-to-cart a,
+.share-icon-btn.under-product-image a,
+.share-only-btn.under-add-to-cart a,
+.share-only-btn.under-product-image a {
+	display: inline-block;
+	margin: 0 3px
+}
+
+.share-icon-btn.page-left-side a,
+.share-icon-btn.page-right-side a,
+.share-only-btn.page-left-side a,
+.share-only-btn.page-right-side a {
+	display: block;
+	margin-top: 7px
+}
+
+.share-only-btn.page-right-side {
+	display: block;
+	position: fixed;
+	z-index: 9999;
+	right: 0;
+	top: 36%;
+	text-align: right;
+}
+
+.share-only-btn.page-left-side {
+	display: block
+}
+
+.share-icon-btn.page-right-side {
+	display: block;
+	position: fixed;
+	z-index: 9999;
+	right: 0;
+	top: 36%;
+	text-align: right;
+}
+
+.share-icon-btn.page-left-side {
+	display: block;
+	position: fixed;
+	z-index: 9999;
+	left: 0;
+	top: 36%
+}
+
+.share-icon-btn.page-left-side div#insta-share-button,
+.share-icon-btn.page-right-side div#fb-share-button,
+.share-icon-btn.page-right-side div#insta-share-button {
+	padding: 5px 12px !important
+}
+
+.share-icon-btn.page-left-side div#fb-share-button {
+	padding: 5px 13px !important
+}
+
+.share-only-btn.page-left-side div#fb-share-button,
+.share-only-btn.page-right-side div#fb-share-button {
+	padding: 5px 9px !important
+}
+
+.share-only-btn.page-left-side div#linkdin-share-button,
+.share-only-btn.page-left-side div#twitter-share-button,
+.share-only-btn.page-right-side div#linkdin-share-button,
+.share-only-btn.page-right-side div#twitter-share-button {
+	padding: 5px 18px !important
+}
+
+.popup {
+	display: none;
+	position: fixed;
+	padding: 10px;
+	width: 280px;
+	left: 50%;
+	margin-left: -150px;
+	height: 180px;
+	top: 50%;
+	margin-top: -100px;
+	background: #fff;
+	border: 3px solid #f04a49;
+	z-index: 20
+}
+</style><link href='https://use.fontawesome.com/releases/v5.6.1/css/all.css' rel='stylesheet'>  <div class="maindv share-only-icon"> <div class ="frame"> </div></div><div class="share-icon-btn"></div><div class="share-only-btn"></div><input type="hidden" id="shopname" value="{{shop.name}}"/><script>
+//     jQuery( window ).on('load', function() {
+data = {};
+var shopname =document.getElementById('shopname').value; 
+//alert(shopname);
+jQuery.ajax({
+type: 'GET',
+url: 'https://apps-marketplace.dotsquares.com/ds-social-share-buttons/showicon.php?shopname='+shopname,
+data: data,
+dataType:'json',
+success: function(data) { 
+// console.log(data);
+// alert(data.layout); 
+if(data.layout == "only_icon")
+{
+$(".share-icon-btn").css("display", "none");
+$(".share-only-btn").css("display", "none");
+$(".share-only-icon").css("display", "block"); 
+if(data.keyname == "under_the_product-image")
+{
+$( ".share-only-icon" ).remove();
+$( ".product__media-gallery" ).after('<div class="maindv share-only-icon"><div class ="frame"></div></div>');
+$(".share-only-icon").addClass("under-product-image");
+}
+if(data.keyname == "page_right_side")
+{
+$( ".share-only-icon" ).remove();
+$( "body" ).after('<div class="maindv share-only-icon"><div class ="frame"></div></div>');
+$(".share-only-icon").addClass("page-right-side");
+}
+
+if(data.keyname == "page_left_side")
+{
+$( ".share-only-icon" ).remove();
+$( "body" ).after('<div class="maindv share-only-icon"><div class ="frame"></div></div>');
+$(".share-only-icon").addClass("page-left-side");
+}
+if(data.keyname == "under_the_add_to_cart")
+{
+$( ".share-only-icon" ).remove();
+$( ".product-form" ).after('<div class="maindv share-only-icon"><div class ="frame"></div></div>');
+$(".share-only-icon").addClass("under-add-to-cart");
+}          
+
+}
+if(data.layout == "icon_with_button")
+{
+$(".share-only-icon").css("display", "none");
+$(".share-only-btn").css("display", "none");
+$(".share-icon-btn").css("display", "block"); 
+if(data.keyname == "under_the_product-image")
+{           
+$( ".share-icon-btn" ).remove();
+$( ".product__media-gallery" ).after('<div class="share-icon-btn"></div>');
+$(".share-icon-btn").addClass("under-product-image");
+}
+if(data.keyname == "page_right_side")
+{              
+$(".share-icon-btn").addClass("page-right-side");
+}
+if(data.keyname == "page_left_side")
+{           
+$(".share-icon-btn").addClass("page-left-side");
+}
+if(data.keyname == "under_the_add_to_cart")
+{
+$( ".share-icon-btn" ).remove();
+$( ".product-form" ).after('<div class="share-icon-btn"></div>');              $(".share-icon-btn").addClass("under-add-to-cart");
+}
+}
+if(data.layout == "only_button")
+{
+$(".share-icon-btn").css("display", "none");
+$(".share-only-icon").css("display", "none");
+$(".share-only-btn").css("display", "block");
+if(data.keyname == "under_the_product-image")
+{
+$( ".share-only-btn" ).remove();
+$( ".product__media-gallery" ).after('<div class="share-only-btn"></div>');
+$(".share-only-btn").addClass("under-product-image");
+}
+if(data.keyname == "page_right_side")
+{      
+$(".share-only-btn").addClass("page-right-side");
+}
+if(data.keyname == "page_left_side")
+{
+$(".share-only-btn").addClass("page-left-side");
+}
+if(data.keyname == "under_the_add_to_cart")
+{
+$( ".share-only-btn" ).remove();
+$( ".product-form" ).after('<div class="share-only-btn"></div>');
+$(".share-only-btn").addClass("under-add-to-cart");
+}
+}
+var current_url = window.location.href;
+var facebook_url = 'https://www.facebook.com/sharer/sharer.php?u=' +current_url;
+var twitter_url = 'https://twitter.com/intent/tweet?url=' +current_url;
+var linkdin_url = 'https://www.linkedin.com/shareArticle?mini=true&url='+current_url;
+var pinterest_url = 'https://pinterest.com/pin/create/button/?url='+current_url+'&media=&description==';
+if(data.facebook == "true")
+{
+jQuery( '.frame' ).append(' <a target="_blank" href='+facebook_url+' class="btn12" id="f_icon"><i class="fab fa-facebook-f"></i></a>');
+jQuery( '.share-only-btn' ).append('<a target="_blank" href='+facebook_url+'><div id="fb-share-button"><span>Facebook</span></div></a>');
+jQuery( '.share-icon-btn' ).append('<a target="_blank" href='+facebook_url+'><div id="fb-share-button"><svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid meet"><path class="svg-icon-path" d="M9.1,0.1V2H8C7.6,2,7.3,2.1,7.1,2.3C7,2.4,6.9,2.7,6.9,3v1.4H9L8.8,6.5H6.9V12H4.7V6.5H2.9V4.4h1.8V2.8 c0-0.9,0.3-1.6,0.7-2.1C6,0.2,6.6,0,7.5,0C8.2,0,8.7,0,9.1,0.1z"></path></svg><span>Share</span></div></a>');
+}
+if(data.pinterest == "true")
+{
+jQuery( '.frame' ).append('<a target="_blank" href='+pinterest_url+' class="btn12" id="f_icon"><i class="fab fa-pinterest" style="color: #3b5998;"></i></a>');
+jQuery( '.share-only-btn' ).append('<a target="_blank" href='+pinterest_url+'><div id="insta-share-button"><span>Pinterest</span></div></a>');
+jQuery( '.share-icon-btn' ).append('<a target="_blank" href='+pinterest_url+'><div id="insta-share-button"><i class="fab fa-pinterest" style="color: white;"></i><span>Share</span></div></a>');
+
+}
+if(data.twitter == "true")
+{
+jQuery( '.frame' ).append('<a target="_blank" href='+twitter_url+' class="btn12" id="t_icon"><i class="fab fa-twitter" style="color: #00acee;"></i></a>');
+jQuery( '.share-only-btn' ).append('<a target="_blank" href='+twitter_url+'><div id="twitter-share-button"><span>Twitter</span></div></a>');
+jQuery( '.share-icon-btn' ).append('<a target="_blank" href='+twitter_url+'><div id="twitter-share-button"><i class="fab fa-twitter" style="color: white;"></i><span>Share</span></div></a>');
+}
+if(data.linkdin == "true")
+{
+jQuery( '.frame' ).append('  <a target="_blank" href='+linkdin_url+' class="btn12" id="l_icon"><i class="fab fa-linkedin-in" style="color:#0e76a8;"></i></a>');
+jQuery( '.share-only-btn' ).append('<a target="_blank" href='+linkdin_url+'><div id="linkdin-share-button"><span>Linkdin</span></div></a>');
+jQuery( '.share-icon-btn' ).append('<a target="_blank" href='+linkdin_url+'><div id="linkdin-share-button"><i class="fab fa-linkedin-in" style="color:white;"></i><span>Share</span></div>');
+}
+}
+});
+// });
+</script> 

@@ -1,0 +1,503 @@
+<div class="hide-on-mobile hide-on-tablets">
+  <ul id="tabs-nav">
+    {% if product.metafields.custom.product_details != blank %}
+      <li class="tablink">
+        <a href="#tab2">Product Details</a>
+      </li>
+    {% endif %}
+{% comment %}
+    {% if product.metafields.custom.image_test != blank %}
+      <li class="tablink">
+        <a href="#tab3">Image</a>
+      </li>
+    {% endif %}
+{% endcomment %}
+    {% if product.metafields.custom.details != blank %}
+      <li class="tablink">
+        <a href="#tab4">Details</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.documents != blank %}
+      <li class="tablink">
+        <a href="#tab5">Documents</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.specifications != blank %}
+      <li class="tablink">
+        <a href="#tab6">Specifications</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.warranty_info != blank %}
+      <li class="tablink">
+        <a href="#tab7">Warranty Information</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.about_the_brand != blank %}
+      <li class="tablink">
+        <a href="#tab8">About the Brand</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.how_to_use != blank %}
+      <li class="tablink">
+        <a href="#tab9">How to Use</a>
+      </li>
+    {% endif %}
+
+    {% if product.metafields.custom.ingredients != blank %}
+      <li class="tablink">
+        <a href="#tab10">Ingredients</a>
+      </li>
+    {% endif %}
+    {% for block in section.blocks %}
+      {% if block.type == "@app" %}
+        <li class="tablink">
+          <a href="#tab11">Product Q&A</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+<div id="tabs-content" class="hide-on-mobile hide-on-tablets">
+  {% if product.metafields.custom.product_details != blank %}
+    <div id="tab2" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.product_details_title }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.product_details }}</p> -->
+      <p>{{ section.settings.product_details }}</p>
+    </div>
+  {% endif %}
+{% comment %}
+  {% if product.metafields.custom.image_test != blank %}
+    <div id="tab3" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.image_test_title }}</h3> -->
+      {{ product.metafields.custom.image_test | img_tag }}
+    </div>
+  {% endif %}
+{% endcomment %}
+  {% if product.metafields.custom.details != blank %}
+    <div id="tab4" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.image_test_title }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.details }}</p> -->
+      <p>{{ section.settings.details }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.documents != blank %}
+    <div id="tab5" class="tab-content tabcontent">
+      <h3>{{ section.settings.title3 }}</h3>
+      <p>
+        {% assign file = product.metafields.custom.documents.value %}
+
+        {% for field in file %}
+          {% assign file_output = file %}
+          {% assign file_url = field.url %}
+          {% assign file_name_with_shopify_extension = file_url | split: '/' | last %}
+          <!-- parse the file name from the URL -->
+          {% assign file_name = file_name_with_shopify_extension | split: '?' | first %}
+          <!-- strip off the ?v=123456789 part of the file name -->
+          <div>
+            <strong>Download:</strong> <a href="{{ field.url }}" target="new">{{ field.url }}</a>
+          </div>
+        {% endfor %}
+      </p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.specifications != blank %}
+    <div id="tab6" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.specification_title }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.specifications }}</p> -->
+      <p>{{ section.settings.specifications }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.warranty_info != blank %}
+    <div id="tab7" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.specification_title }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.warranty_info }}</p> -->
+      <p>{{ section.settings.warranty_info }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.about_the_brand != blank %}
+    <div id="tab8" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.title2 }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.about_the_brand }}</p> -->
+      <p>{{ section.settings.about_the_brand }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.how_to_use != blank %}
+    <div id="tab9" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.title2 }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.how_to_use }}</p> -->
+      <p>{{ section.settings.how_to_use }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.ingredients != blank %}
+    <div id="tab10" class="tab-content tabcontent">
+      <!-- <h3>{{ section.settings.title2 }}</h3> -->
+      <!-- <p>{{ product.metafields.custom.ingredients }}</p> -->
+      <p>{{ section.settings.ingredients }}</p>
+    </div>
+  {% endif %}
+  
+   {% for block in section.blocks %}
+      {% if block.type == "@app" %}
+        <div id="tab11" class="tab-content tabcontent">          
+          {% render block %}          
+        </div>
+      {% endif %}
+    {% endfor %}  
+  
+</div>
+
+
+<div class="hide-on-desktop">
+  {% if product.metafields.custom.product_details != blank %}
+    <button class="accordion">Product Details</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.product_details }}</p> -->
+      <p>{{ section.settings.product_details }}</p>
+    </div>
+  {% endif %}
+{% comment %}
+  {% if product.metafields.custom.image_test != blank %}
+    <button class="accordion">Image</button>
+    <div class="panel">
+      {{ product.metafields.custom.image_test | img_tag }}
+    </div>
+  {% endif %}
+{% endcomment %}
+  {% if product.metafields.custom.details != blank %}
+    <button class="accordion">Details</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.details }}</p> -->
+      <p>{{ section.settings.details }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.documents != blank %}
+    <button class="accordion">Documents</button>
+    <div class="panel">
+      <p>
+        {% assign file = product.metafields.custom.documents.value %}
+
+        {% for field in file %}
+          {% assign file_output = file %}
+          {% assign file_url = field.url %}
+          {% assign file_name_with_shopify_extension = file_url | split: '/' | last %}
+          <!-- parse the file name from the URL -->
+          {% assign file_name = file_name_with_shopify_extension | split: '?' | first %}
+          <!-- strip off the ?v=123456789 part of the file name -->
+          <div>
+            <strong>Download:</strong> <a href="{{ field.url }}" target="new">{{ file_name }}</a>
+          </div>
+        {% endfor %}
+      </p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.specifications != blank %}
+    <button class="accordion">Specifications</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.specifications }}</p> -->
+      <p>{{ section.settings.specifications }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.warranty_info != blank %}
+    <button class="accordion">Warranty Information</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.warranty_info }}</p> -->
+      <p>{{ section.settings.warranty_info }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.about_the_brand != blank %}
+    <button class="accordion">About the Brand</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.about_the_brand }}</p> -->
+      <p>{{ section.settings.about_the_brand }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.how_to_use != blank %}
+    <button class="accordion">How to Use</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.how_to_use }}</p> -->
+      <p>{{ section.settings.how_to_use }}</p>
+    </div>
+  {% endif %}
+
+  {% if product.metafields.custom.ingredients != blank %}
+    <button class="accordion">Ingredients</button>
+    <div class="panel">
+      <!-- <p>{{ product.metafields.custom.ingredients }}</p> -->
+      <p>{{ section.settings.ingredients }}</p>
+    </div>
+  {% endif %}
+
+  
+    {% comment %} {% for block in section.blocks %}
+      {% if block.type == "@app" %}
+        <button class="accordion">Product Q&A</button>
+        <div class="panel">
+         <p> {% render block %}  </p>        
+        </div>
+      {% endif %}
+    {% endfor %}  {% endcomment %}
+   
+  
+</div>
+
+<style>
+  .accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+
+  .active, .accordion:hover {
+    background-color: #ccc;
+  }
+
+  .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+
+  .active:after {
+    content: "\2212";
+  }
+
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
+
+
+
+ .store-availability__small{
+            margin-bottom: -8px;
+        font-family: 'Optima' !important;
+      }
+
+
+      .store-availability__info{
+            font-family: 'Optima' !important;
+      }
+
+      span, p, .p{
+        font-weight: 100;
+      }
+
+
+      .btn span{
+        font-weight: bold;
+      }
+
+    /* Style tab links */
+    .tablink {
+      background-color: #e1e1e1;
+      color: black;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      font-size: 17px;
+      width: 20%;
+      font-weight: bold;
+    }
+
+    .tablink:hover {
+      background-color: #fff;
+    }
+
+    /* Style the tab content (and add height:100% for full page content) */
+    .tabcontent {
+      color: black;
+      display: none;
+      padding: 100px 20px;
+      height: 100%;
+      padding-bottom:40px;
+    }
+
+    #Description {background-color: #ffffff;}
+    #KeyFeatures {background-color: #fff;}
+    #Shipping {background-color: #fff;}
+
+  /*  New design 08-05-2023  */
+    .hide-on-mobile #tabs-nav .tablink{
+    text-align: center;
+  }
+  .hide-on-mobile #tabs-nav .tablink a{
+    color: #000;
+  }
+  .hide-on-mobile #tabs-nav .tablink.active{
+    background: #fff;
+  }
+  .hide-on-mobile #tabs-nav .tablink.active:after{
+    display: none;
+  }
+  .hide-on-mobile #tabs-nav{
+    list-style: none;
+    padding: 0px;
+  }
+  
+</style>
+
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  }
+  
+  $(document).ready(function(){
+    // Show the first tab and hide the rest
+    $('#tabs-nav li:first-child').addClass('active');
+    $('.tab-content').hide();
+    $('.tab-content:first').show();
+
+    // Click function
+    $('#tabs-nav li').click(function(){
+      $('#tabs-nav li').removeClass('active');
+      $(this).addClass('active');
+      $('.tab-content').hide();
+
+      var activeTab = $(this).find('a').attr('href');
+      $(activeTab).fadeIn();
+      return false;
+    });
+    
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Tabs Content",
+    "class": "homepage-section--rich-text-wrapper",
+    "settings": [
+{
+        "type": "select",
+        "id": "align_text",
+        "label": "Text alignment",
+        "default": "center",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centered"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+{
+        "type": "checkbox",
+        "id": "narrow_column",
+        "label": "Narrow column",
+        "default": true
+      },
+{
+        "type": "checkbox",
+        "id": "divider",
+        "label": "Show section divider",
+        "default": false
+      },
+  {
+            "id": "product_details",
+            "type": "richtext",
+            "label": "Product Details"
+          },
+  {
+            "id": "details",
+            "type": "richtext",
+            "label": "Details"
+          },
+  {
+            "id": "documents",
+            "type": "richtext",
+            "label": "Documents"
+          },
+  {
+            "id": "specifications",
+            "type": "richtext",
+            "label": "Specifications"
+          },
+  {
+            "id": "warranty_info",
+            "type": "richtext",
+            "label": "Warranty Info"
+          },
+  {
+            "id": "about_the_brand",
+            "type": "richtext",
+            "label": "About the Brand"
+          },
+  {
+            "id": "how_to_use",
+            "type": "richtext",
+            "label": "How to Use"
+          },
+  {
+            "id": "ingredients",
+            "type": "richtext",
+            "label": "Ingredients"
+          }
+    ],
+    "blocks": [
+      {
+        "type": "@app"
+      }
+    ],
+    "presets": [
+        {
+            "name": "Tabs Content",
+            "category": {
+                "en": "Text",
+                "de": "Text",
+                "es": "Texto",
+                "fr": "Texte",
+                "pt-PT": "Texto"
+            }
+        }
+    ]
+}
+{% endschema %}

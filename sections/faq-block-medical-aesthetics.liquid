@@ -1,0 +1,40 @@
+<div class="custom-faq-section-medical-aesthetics">
+  {% for block in section.blocks %}
+    <div class="tab-question">
+      {{ block.settings.question }}
+    </div>
+    <div class="">
+      {{ block.settings.answer }}
+    </div>
+  {% endfor %}
+</div>
+{% schema %}
+  {
+    "name": "Custom FAQ Section",
+    "settings": [
+    ],
+    "blocks": [
+      {
+      "type": "faq_block",
+      "name": "FAQ Block",
+      "settings": [
+        {
+            "id": "question",
+            "type": "richtext",
+            "label": "Question"
+        },
+        {
+            "id": "answer",
+            "type": "richtext",
+            "label": "Answer"
+        }
+      ]
+      }
+    ],
+    "presets": [
+        {
+            "name": "Custom FAQ Section"
+        }
+    ]
+}
+{% endschema %}
