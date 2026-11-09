@@ -27,7 +27,7 @@
           <div id="blog_data">
             {% for link in linklists.blogs.links %}
                 {% assign blog = link.object %}
-                {% for article in blog.articles by 3 %}
+                {% for article in blog.articles %}
                   <div class="sf-col-md-6">
                     <div class="sub_news_image">
                       <img src="{{ article.image | img_url: 'master' }}" alt="">
@@ -1721,3 +1721,13 @@ $(document).ready(function(){
 </script>
 
 
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% for article in blog.articles by 3 %}"
+  to: "{% for article in blog.articles %}"
+  position: 880..914
+{% endcomment %}
